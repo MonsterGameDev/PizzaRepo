@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    <h3>Pizza List</h3>
+    <table cellpadding="2" cellspacing="2" border="1">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Photo</th>
+            <th>Price</th>
+            <th>Buy</th>
+        </tr>
+        @foreach (var pizza in ViewBag.pizzas)
+        {
+            <tr>
+                <td>@pizza.Id</td>
+                <td>@pizza.Name</td>
+                <td>@pizza.Description</td>
+                <td><img src="~/images/@pizza.Photo" width="60" /> </td>
+                <td>@pizza.Price</td>
+                <td align="center">
+                    <a asp-controller="cart" asp-action="buy" asp-route-id="@pizza.Id">Buy Now</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+</body>
+</html>
