@@ -1,49 +1,40 @@
-﻿
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-
-    <h3>Cart Page</h3>
-    <table cellpadding="2" cellspacing="2" border="1">
-        <tr>
-            <th>Option</th>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Photo</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Sub Total</th>
-        </tr>
-        @foreach (var item in ViewBag.cart)
-        {
-            <tr>
-                <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Pizza.Id">Remove</a></td>
-                <td>@item.Pizza.Id</td>
-                <td>@item.Pizza.Name</td>
-                <td><img src="~/images/@item.Pizza.Photo" width="60" /> </td>
-                <td>@item.Pizza.Price</td>
-                <td>@item.Quantity</td>
-                <td>@(item.Pizza.Price * item.Quantity)</td>
-            </tr>
-        }
-        <tr>
-            <td align="right" colspan="6">Sum</td>
-            <td>
-                @ViewBag.total
-            </td>
-        </tr>
-    </table>
-    <br>
-    <a asp-controller="pizza" asp-action="index">Continue Shopping</a>
-
-</body>
-</html>
+﻿   <div class="column">
+    <h3 class="text-center my-4">You have following items in your Cart...</h3>
+    <div class="row">
+        <table class="table col-6 offset-3">
+            <thead>
+                <tr>
+                    <th class="col"></th>
+                    <th class="col">Name</th>
+                    <th class="col">Price</th>
+                    <th class="col">Quantity</th>
+                    <th class="col">Sub Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.cart)
+                {
+                    <tr>
+                        <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Pizza.Id" class="btn btn-info">Remove</a></td>
+                        <td>@item.Pizza.Name</td>
+                        <td>@item.Pizza.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Pizza.Price * item.Quantity)</td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right" colspan="4">Sum</td>
+                    <td>
+                        @ViewBag.total
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+       <br>
+       <div class="row offset-3 col-6">
+           <a asp-controller="pizza" asp-action="index" class="btn btn-primary col-5 mr-3 offset-1">Order more Pizza...</a>
+           <a asp-controller="cart" asp-action="Order" class="btn btn-info col-5 ml-3">Place Order</a>
+       </div>
+       </div>
+       

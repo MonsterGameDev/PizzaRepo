@@ -1,41 +1,21 @@
-﻿
-@{
-    Layout = null;
-}
+﻿<div class="row">
+    <h3 class="col-12">Pizzas for sale...</h3>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+    @foreach (var pizza in ViewBag.pizzas)
+    {
+        <div class="card col-4 shadow p-3 mb-5 bg-white rounded">
+            <img src="~/images/@pizza.Photo" width="60" class="card-img-top" />
+            <div class="card-body bg-info d-flex flex-column justify-content-between">
+                <h5 class="card-title d-flex flex-row justify-content-between">
+                    <span>@pizza.Name</span>
+                    <span>DKK @pizza.Price</span>
+                </h5>
+                <p class="card-text">@pizza.Description</p>
+                <a asp-controller="cart" asp-action="buy" asp-route-id="@pizza.Id" class="btn btn-primary">Order</a>
+            </div>
+        </div>
+    }
+    </div>
 
-    <h3>Pizza List</h3>
-    <table cellpadding="2" cellspacing="2" border="1">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Photo</th>
-            <th>Price</th>
-            <th>Buy</th>
-        </tr>
-        @foreach (var pizza in ViewBag.pizzas)
-        {
-            <tr>
-                <td>@pizza.Id</td>
-                <td>@pizza.Name</td>
-                <td>@pizza.Description</td>
-                <td><img src="~/images/@pizza.Photo" width="60" /> </td>
-                <td>@pizza.Price</td>
-                <td align="center">
-                    <a asp-controller="cart" asp-action="buy" asp-route-id="@pizza.Id">Buy Now</a>
-                </td>
-            </tr>
-        }
-    </table>
 
-</body>
-</html>

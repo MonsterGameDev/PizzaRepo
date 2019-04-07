@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pizzaria.Models;
+using Pizzaria.Services;
 
 namespace Pizzaria.Controllers
 {
@@ -19,5 +20,8 @@ namespace Pizzaria.Controllers
             ViewBag.pizzas = pizzaModel.findAll();
             return View();
         }
+
+       
+
     }
 }

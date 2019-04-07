@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pizzaria.Helpers;
 using Pizzaria.Models;
+using Pizzaria.Services;
 
 namespace Pizzaria.Controllers
 {
-   
+    
     [Route("cart")]
     public class CartController : Controller
     {
@@ -56,6 +57,46 @@ namespace Pizzaria.Controllers
             cart.RemoveAt(index);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index");
+        }
+
+        [Route("order")]
+        public IActionResult Order()
+        {
+            if (Request.Cookies["PizzaUser"] == null)
+                return RedirectToAction("Index", "User");
+
+            string order = "";
+            var cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            foreach (CartItem item in cart)
+            {
+                order += $"{item.Quantity}: {item.Pizza.Name} - kr. {item.Pizza.Price * item.Quantity} \n";
+            }
+            string msg = "Following order has just been sent from website\n\n" + order;
+            try
+            {
+                _emailService.SendEmail("per@qwert.dk", "Order: You got work comming", msg);
+                HttpContext.Session.Clear();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error: " + ex.Message;
+            }
+
+            return RedirectToAction("orderconfirmation");
+            
+        }
+
+        [Route("orderconfirmation")]
+        public IActionResult OrderConfirmation()
+        {
+            
+            return View();
+        }
+
+        private IEmailService _emailService;
+        public CartController(IEmailService emailService)
+        {
+            _emailService = emailService;
         }
 
         private int isExist(string id)

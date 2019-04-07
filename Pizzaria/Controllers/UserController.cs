@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace Pizzaria.Controllers
 {
+    [Route("user")]
     public class UserController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -17,14 +18,13 @@ namespace Pizzaria.Controllers
             this._httpContextAccessor = httpContextAccessor;
         }
 
+        [Route("index")]
         public IActionResult Index()
         {
             return View();
         }
 
-
-
-
+        [Route("save")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Save(Customer model)
@@ -40,6 +40,7 @@ namespace Pizzaria.Controllers
                 return RedirectToAction(actionName: "Confirmation");
             }
 
+
             return RedirectToAction(actionName: "Confirmation");
 
         }
@@ -49,6 +50,7 @@ namespace Pizzaria.Controllers
             return View();
         }
 
+        [Route("profile")]
         public IActionResult Profile()
         {
             Customer customer = getUserFromCookie();
@@ -92,7 +94,7 @@ namespace Pizzaria.Controllers
                 option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
             else
                 option.Expires = DateTime.Now.AddMilliseconds(10);
-            Response.Cookies.Append(key, value, option);
+                Response.Cookies.Append(key, value, option);
         }
 
         [NonAction]
